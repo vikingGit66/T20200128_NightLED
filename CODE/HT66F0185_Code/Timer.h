@@ -20,7 +20,7 @@ extern volatile bit gbv_GAD_OLEDDispayDebug_Time_1s;
 #define TimeBase1_INT_OFF()	{ _tb1e = 0;}
 
 void V_Timer_Init();
-
+void Delay_ms(u16 time);
 
 #endif
 

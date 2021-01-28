@@ -29,7 +29,7 @@ extern volatile unsigned char gu8v_TipsLED_Time;
 //Key_FirstOn
 extern volatile bit gbv_Key_Is_NoFirst;
 //LED-Is-AutoOff
-extern volatile bit gbv_NightLED_Is_AutoOff;
+extern volatile bit gbv_NightLED_Is_AutoChange;
 //HaltTime
 extern volatile unsigned char gu8v_HaltTime;
 //Key0
@@ -44,6 +44,23 @@ extern volatile bit gbv_NightLED_Is_HandTurnOut;
 extern volatile bit Tips_NightFindLED_State;
 //G_IS_H_Or_L
 extern volatile bit gbv_G_Is_H;
+//GHMin
+extern volatile unsigned int GHMin;
+//GLMax
+extern volatile unsigned int GLMax;
+//GL1_Data,V3.0 unused
+extern volatile unsigned int GL1_Data;
+//GL2_Data,V3.0 unused
+extern volatile unsigned int GL2_Data;
+//GL1L2_Data,V3.0 unused
+extern volatile unsigned int GL1L2_Data;
+
+
+//自動校準的時間變量
+extern volatile unsigned char gu8v_LEDAutoCalTime;
+extern volatile unsigned int G_AutoCalADCDataTemp;
+extern volatile bit gbv_AutoCal_GState;
+extern volatile unsigned char gu8v_AutoCalState;
 
 
 
@@ -68,9 +85,10 @@ extern volatile bit gbv_G_Is_H;
 #define gu8v_TipsLEDTimeOutSet 5 //5s的指示燈
 
 //工作狀態枚舉
-#define WorkMode_None           0
-#define WorkMode_Auto           1  //自動小夜燈
-#define WorkMode_KeyControl1_2  2  //亮度1 && 亮度2
+#define WorkMode_None            0
+#define WorkMode_Auto            1  //自動小夜燈
+#define WorkMode_KeyControl1_2   2  //亮度1 && 亮度2
+#define WorkMode_NightLEDAutoCal 3  //自動校準模式
 
 //光強狀態枚舉
 #define G_State_None 0
@@ -114,6 +132,31 @@ extern volatile bit gbv_G_Is_H;
 #define gu8v_HaltTimeSet60s 60
 #define gu8v_HaltTimeSet90s 90
 #define gu8v_HaltTimeSet120s 120
+
+
+//自動校準狀態
+#define AutoCalState_Is_Finding_H       0
+#define AutoCalState_Is_Finded_H        1
+#define AutoCalState_Is_Finding_L       2
+#define AutoCalState_Is_Finded_L        3
+#define AutoCalState_Is_Setting_L1      4
+#define AutoCalState_Is_Setting_L2      5
+#define AutoCalState_Is_Setting_L1L2    6
+#define AutoCalState_Is_LOK             7
+#define AutoCalState_Is_OK              8
+#define AutoCalState_Is_Failed          9
+#define NightAutoCal_GState_Is_L    0
+#define NightAutoCal_GState_Is_H    1
+
+
+
+#define gu8V_GAD_GHIncData 	200 //default:800
+#define gu8V_GAD_GLDecData 	200	//default:800
+#define GLMaxDefault		1000//暗條件的最大值，小於最大值都為暗;default:1000
+#define GHMinDefault		2500//亮條件的最小值，大於最小值都為亮;default:2500
+#define gu8V_GAD_Cnt	  	10	//AD採樣次數
+#define gu8V_GAD_channel 	ADC_CHANNEL_AN2 //AD通道
+
 
 #define SET_ADC_DATA_0_11() { _adrfs = 1;}
 #define SET_ADC_POWER_ON()	{ _adcen = 1;}

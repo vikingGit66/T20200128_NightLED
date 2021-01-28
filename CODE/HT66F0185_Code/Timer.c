@@ -8,6 +8,14 @@
 #include "common.h"
 volatile bit gbv_GAD_Time_1s = 0;
 volatile bit gbv_GAD_OLEDDispayDebug_Time_1s = 0;
+void Delay_ms(u16 time)
+{
+	u16 i;
+	for(i = time; i > 0; i--)	
+	{
+		GCC_DELAY(2000);	
+	}
+}
 /*
  * @ 時基時間初始化1s
  * @
@@ -37,5 +45,6 @@ DEFINE_ISR(TIMEBASE1_ISR, 0x020)
     gu8v_LEDTime ++;
 	gu8v_TipsLED_Time ++;
 	gu8v_HaltTime ++;
+	gu8v_LEDAutoCalTime ++;
 }
 
