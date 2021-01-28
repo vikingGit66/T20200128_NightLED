@@ -1,0 +1,19 @@
+1.打開Git Bash Here
+2.輸入touch .gitignore ,創建忽略文件
+3.輸入git status ,查詢狀態
+
+
+1.新建 .gitignore 文件
+2.輸入
+.output
+NightLED/startup1_l.asm
+NightLED/NightLED.opt
+NightLED/NightLED.pjt
+NightLED/NightLED.pjtx
+NightLED/NightLED.pjw
+
+
+
+
+
+
