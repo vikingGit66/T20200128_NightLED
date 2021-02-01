@@ -1,9 +1,9 @@
 /*
- * @AD æ¡æ¨£å…‰å¼·
- * @å‰µå»ºæ™‚é–“ï¼šT20201028
- * @ä½œè€…ï¼šViking
- * @ç‰ˆæœ¬è™Ÿï¼šV2.0
- * @æ³¨ï¼š
+ * @AD ’ñ˜Ó¹âŠ
+ * @„“½¨•rég£ºT20201028
+ * @×÷Õß£ºViking
+ * @°æ±¾Ì–£ºV2.0
+ * @×¢£º
  */
 #include "common.h"
 #include <stdlib.h>
@@ -15,20 +15,20 @@
 volatile unsigned int G_ADCData;
 volatile int G_ADCDataLast;
 
-//å·¥ä½œç‹€æ…‹
+//¹¤×÷ î‘B
 volatile unsigned char gu8v_WorkMode;
-//å…‰å¼·ç‹€æ…‹è®Šé‡
+//¹âŠ î‘B×ƒÁ¿
 volatile unsigned char gu8v_GState;
-//LEDç‹€æ…‹è®Šé‡
+//LED î‘B×ƒÁ¿
 volatile unsigned char gu8v_LEDState;
-//æŒ‡ç¤ºç‡ˆç‹€æ…‹è®Šé‡
+//Ö¸Ê¾Ÿô î‘B×ƒÁ¿
 volatile unsigned char gu8v_TipsLEDState;
 volatile unsigned char gu8v_TipsLEDStateLast;
-//æŒ‰éµç‹€æ…‹è®Šé‡
+//°´æI î‘B×ƒÁ¿
 volatile unsigned char gu8v_KeyState;
-//ADC-On æ§åˆ¶ä½
+//ADC-On ¿ØÖÆÎ»
 volatile bit gbv_GADC_Is_On;
-//LED å€’è¨ˆæ™‚è®Šé‡
+//LED µ¹Ó‹•r×ƒÁ¿
 volatile unsigned int gu8v_LEDTime;
 //LED_Is_On
 volatile bit gbv_LEDTime_Is_On;
@@ -67,7 +67,7 @@ volatile unsigned int GL2_Data;
 //GL1L2_Data,V3.0 unused
 volatile unsigned int GL1L2_Data;
 
-//è‡ªå‹•æ ¡æº–çš„æ™‚é–“è®Šé‡
+//×Ô„ÓĞ£œÊµÄ•rég×ƒÁ¿
 volatile unsigned char gu8v_LEDAutoCalTime;
 volatile unsigned int G_AutoCalADCDataTemp = 0;
 volatile bit gbv_AutoCal_GState;
@@ -76,17 +76,19 @@ volatile unsigned char gu8v_AutoCalState;
 //T20210119
 //LED-Is-AutoOffTime
 volatile unsigned char  gu8v_NightLED_Is_AutoOff_Time1s;
-//T20210128ä¿®æ”¹åˆ¤æ–·GHï¼ŒGLåˆ¤æ–·
+//T20210128ĞŞ¸ÄÅĞ”àGH£¬GLÅĞ”à
 void fun_AD_GL_OR_GH()
 {
-	if(gbv_GAD_Time_1s && gbv_GADC_Is_On)
+	if( (gbv_GAD_Time_1s && gbv_GADC_Is_On)
+		|| gbv_NightLED_Is_AutoChange)
 	{
 		gbv_GAD_Time_1s = 0;
-		G_ADCData = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//1sæ¡é›†10ç­†æ•¸æ“š
-		if(G_ADCData > GHMin)
+		G_ADCData = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//1s’ñ¼¯10¹P”µ“ş
+		if(G_ADCData > GHMin)//ÓÉanÇĞ“Qµ½ÇĞ“Qliang£¬éGH_State
 		{
 			gbv_G_Is_H = 1;
-			if(G_ADCDataLast <= GLMax)
+			if(G_ADCDataLast <= GL1L2_Data)
+			//if(G_ADCDataLast <= (G_ADCData - 300))
 			{
 				gu8v_GState = G_State_H;
 			}
@@ -96,10 +98,11 @@ void fun_AD_GL_OR_GH()
 			}
 			
 		}
-		else if(G_ADCData < GLMax)
+		else if(G_ADCData < GLMax)//ÓÉÁÁÇĞ“Qµ½°µé£ºGL
 		{
 			gbv_G_Is_H = 0;
 			if(G_ADCDataLast >= GHMin)
+			//if(G_ADCDataLast >= (G_ADCData + 300))
 			{
 				gu8v_GState = G_State_L;
 			}
@@ -109,15 +112,15 @@ void fun_AD_GL_OR_GH()
 			}
 			//
 		}
-		//å¦‚æœæ˜¯å€’è¨ˆæ™‚çµæŸåçš„ 2 æ¬¡çš„æ•¸å€¼åˆ¤æ–·ç‚ºè®Šæš—ï¼Œå‰‡ç‹€æ…‹ç‚ºä¿æŒï¼šgu8v_GState = G_State_Hold
-		if(gbv_NightLED_Is_AutoChange || gbv_NightLED_Is_HandTurnOut)//å°å¤œç‡ˆé—œé–‰çš„ç”±äº®åˆ°æš—,AutoOffåè¨­ç½®ç‚º1
+		//Èç¹ûÊÇµ¹Ó‹•r½YÊøºóµÄ 2 ´ÎµÄ”µÖµÅĞ”àé×ƒ°µ£¬„t î‘Bé±£³Ö£ºgu8v_GState = G_State_Hold
+		if(gbv_NightLED_Is_AutoChange || gbv_NightLED_Is_HandTurnOut)//Ğ¡Ò¹ŸôêPé]µÄÓÉÁÁµ½°µ,AutoOffºóÔOÖÃé1
 		{
 			gu8v_NightLED_Is_AutoOff_Time1s ++;
-			if(gu8v_NightLED_Is_AutoOff_Time1s == 1)//é€²ä¾†å…©æ¬¡ï¼Œå…©ç§’ï¼Œå¯é–‹æ”¾ç‚ºå®å®šç¾©æ™‚é–“ default:2
+			if(gu8v_NightLED_Is_AutoOff_Time1s == 1)//ßMíƒÉ´Î£¬ƒÉÃë£¬¿Éé_·Åéºê¶¨Áx•rég default:2
 			{
 				gu8v_NightLED_Is_AutoOff_Time1s = 0;
-				gbv_NightLED_Is_AutoChange = 0;		//è‡ªå‹•é—œé–‰LEDæ¨™èªŒä½
-				gbv_NightLED_Is_HandTurnOut = 0;	//æ‰‹å‹•é—œé–‰LEDæ¨™èªŒä½
+				gbv_NightLED_Is_AutoChange = 0;		//×Ô„ÓêPé]LED˜ËÕIÎ»
+				gbv_NightLED_Is_HandTurnOut = 0;	//ÊÖ„ÓêPé]LED˜ËÕIÎ»
 			}
 			gu8v_GState = G_State_Hold;	
 		}
@@ -128,9 +131,9 @@ void fun_AD_GL_OR_GH()
 
 
 /**
- * @brief å¼€å¯ADCé€šé“ï¼Œå¹¶è·å–ADCå€¼
+ * @brief ¿ªÆôADCÍ¨µÀ£¬²¢»ñÈ¡ADCÖµ
  *
- * @param channel ADCé‡‡æ ·é€šé“
+ * @param channel ADC²ÉÑùÍ¨µÀ
  * @return unsigned int
  */
 unsigned int Drv_GetADC(unsigned char channel)
@@ -168,9 +171,9 @@ unsigned int Drv_GetADC(unsigned char channel)
 
 
 /**
- * @brief å¼€å¯ADCé€šé“ï¼Œè¿ç»­è·å–Nç¬”ADCï¼Œå»é™¤æœ€å¤§æœ€å°åå–å¹³å‡å€¼
+ * @brief ¿ªÆôADCÍ¨µÀ£¬Á¬Ğø»ñÈ¡N±ÊADC£¬È¥³ı×î´ó×îĞ¡ºóÈ¡Æ½¾ùÖµ
  *
- * @param channel ADCé‡‡æ ·é€šé“
+ * @param channel ADC²ÉÑùÍ¨µÀ
  * @return unsigned int
  */
 unsigned int Drv_GetADC_AVGn(unsigned char channel, unsigned char Cnt)
@@ -220,9 +223,9 @@ unsigned int Drv_GetADC_AVGn(unsigned char channel, unsigned char Cnt)
 }
 
 /**
- * @brief å¼€å¯ADCé€šé“ï¼Œè¿ç»­è·å–N(N<=10)ç¬”ADCï¼Œå–ä¸­é–“å€¼
+ * @brief ¿ªÆôADCÍ¨µÀ£¬Á¬Ğø»ñÈ¡N(N<=10)±ÊADC£¬È¡ÖĞégÖµ
  *
- * @param channel ADCé‡‡æ ·é€šé“
+ * @param channel ADC²ÉÑùÍ¨µÀ
  * @return unsigned int
  */
 unsigned int Drv_GetADC_TEMPn(unsigned char channel, unsigned char Cnt)
@@ -255,7 +258,7 @@ unsigned int Drv_GetADC_TEMPn(unsigned char channel, unsigned char Cnt)
 		AdcData[i] = _sadol;
 		AdcData[i] += _sadoh*256;
 	}
-	//å†’æ³¡æ’åº
+	//Ã°ÅİÅÅĞò
 	for(j=0;j<(Cnt-1);j++)
 	{
 		for(i=0;i<(Cnt-1-j);i++)

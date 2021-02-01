@@ -3,20 +3,20 @@
 #ifndef _AD_H_
 #define _AD_H_
 
-//å·¥ä½œç‹€æ…‹è®Šé‡
+//¹¤×÷ î‘B×ƒÁ¿
 extern volatile unsigned char gu8v_WorkMode;
-//å…‰å¼·ç‹€æ…‹è®Šé‡
+//¹âŠ î‘B×ƒÁ¿
 extern volatile unsigned char gu8v_GState;
-//LEDç‹€æ…‹è®Šé‡
+//LED î‘B×ƒÁ¿
 extern volatile unsigned char gu8v_LEDState;
-//æŒ‡ç¤ºç‡ˆç‹€æ…‹è®Šé‡
+//Ö¸Ê¾Ÿô î‘B×ƒÁ¿
 extern volatile unsigned char gu8v_TipsLEDState;
 extern volatile unsigned char gu8v_TipsLEDStateLast;
-//æŒ‰éµç‹€æ…‹è®Šé‡
+//°´æI î‘B×ƒÁ¿
 extern volatile unsigned char gu8v_KeyState;
-//ADC-On æ§åˆ¶ä½
+//ADC-On ¿ØÖÆÎ»
 extern volatile bit gbv_GADC_Is_On;
-//LED å€’è¨ˆæ™‚è®Šé‡
+//LED µ¹Ó‹•r×ƒÁ¿
 extern volatile unsigned int gu8v_LEDTime;
 //LED_Is_On
 extern volatile bit gbv_LEDTime_Is_On;
@@ -56,7 +56,7 @@ extern volatile unsigned int GL2_Data;
 extern volatile unsigned int GL1L2_Data;
 
 
-//è‡ªå‹•æ ¡æº–çš„æ™‚é–“è®Šé‡
+//×Ô„ÓĞ£œÊµÄ•rég×ƒÁ¿
 extern volatile unsigned char gu8v_LEDAutoCalTime;
 extern volatile unsigned int G_AutoCalADCDataTemp;
 extern volatile bit gbv_AutoCal_GState;
@@ -66,7 +66,7 @@ extern volatile unsigned char gu8v_AutoCalState;
 
 
 //#define TipsLED_OneLED
-#define TipsLED_OneToTwoLED_10min//LEDæŒ‡ç¤ºç‡ˆ10åˆ†é˜ä¸€å€‹ç­‰ç´š
+#define TipsLED_OneToTwoLED_10min//LEDÖ¸Ê¾Ÿô10·ÖçŠÒ»‚€µÈ¼‰
 
 #define LED_IO 		        _pc
 #define LED_IOC		        _pcc
@@ -82,31 +82,31 @@ extern volatile unsigned char gu8v_AutoCalState;
 #define In          1
 #define On 			1
 #define Off 		0
-#define gu8v_TipsLEDTimeOutSet 5 //5sçš„æŒ‡ç¤ºç‡ˆ
+#define gu8v_TipsLEDTimeOutSet 5 //5sµÄÖ¸Ê¾Ÿô
 
-//å·¥ä½œç‹€æ…‹æšèˆ‰
+//¹¤×÷ î‘BÃ¶Åe
 #define WorkMode_None            0
-#define WorkMode_Auto            1  //è‡ªå‹•å°å¤œç‡ˆ
-#define WorkMode_KeyControl1_2   2  //äº®åº¦1 && äº®åº¦2
-#define WorkMode_NightLEDAutoCal 3  //è‡ªå‹•æ ¡æº–æ¨¡å¼
+#define WorkMode_Auto            1  //×Ô„ÓĞ¡Ò¹Ÿô
+#define WorkMode_KeyControl1_2   2  //ÁÁ¶È1 && ÁÁ¶È2
+#define WorkMode_NightLEDAutoCal 3  //×Ô„ÓĞ£œÊÄ£Ê½
 
-//å…‰å¼·ç‹€æ…‹æšèˆ‰
+//¹âŠ î‘BÃ¶Åe
 #define G_State_None 0
 #define G_State_H  	 1
 #define G_State_L  	 2
 #define G_State_Hold 3
-//LEDç‹€æ…‹æšèˆ‰
+//LED î‘BÃ¶Åe
 #define LED_State_None 	0
 #define LED_State_On   	1
 #define LED_State_Off	2
-//LEDäº®åº¦
+//LEDÁÁ¶È
 #define LEDLight_Off	0
 #define LEDLight_N1		1
 #define LEDLight_N2		2
 #define LEDLight_N3		3
 #define LEDLightNum     3
 
-//æŒ‡ç¤ºç‡ˆç‹€æ…‹æšèˆ‰
+//Ö¸Ê¾Ÿô î‘BÃ¶Åe
 #define TipsLED_State_None	0
 #define TipsLED_State_L1	1	
 #define TipsLED_State_L2	2
@@ -117,10 +117,10 @@ extern volatile unsigned char gu8v_AutoCalState;
 #define TipsLED_State_L7	7
 //#define TipsLED_State_L8	8
 #define TipsLED_LNum        7
-#define Tips_NightFindLED_Off   0 //æ–°è®Šé‡
-#define Tips_NightFindLED_On    1 //æ–°è®Šé‡
+#define Tips_NightFindLED_Off   0 //ĞÂ×ƒÁ¿
+#define Tips_NightFindLED_On    1 //ĞÂ×ƒÁ¿
 
-//æŒ‰éµç‹€æ…‹æšèˆ‰
+//°´æI î‘BÃ¶Åe
 #define Key_State_None			0
 #define Key_State_ShortPress	1
 #define Key_State_LongPress		2
@@ -134,7 +134,7 @@ extern volatile unsigned char gu8v_AutoCalState;
 #define gu8v_HaltTimeSet120s 120
 
 
-//è‡ªå‹•æ ¡æº–ç‹€æ…‹
+//×Ô„ÓĞ£œÊ î‘B
 #define AutoCalState_Is_Finding_H       0
 #define AutoCalState_Is_Finded_H        1
 #define AutoCalState_Is_Finding_L       2
@@ -152,16 +152,18 @@ extern volatile unsigned char gu8v_AutoCalState;
 
 #define gu8V_GAD_GHIncData 	200 //default:800
 #define gu8V_GAD_GLDecData 	200	//default:800
-#define GLMaxDefault		1000//æš—æ¢ä»¶çš„æœ€å¤§å€¼ï¼Œå°æ–¼æœ€å¤§å€¼éƒ½ç‚ºæš—;default:1000
-#define GHMinDefault		2500//äº®æ¢ä»¶çš„æœ€å°å€¼ï¼Œå¤§æ–¼æœ€å°å€¼éƒ½ç‚ºäº®;default:2500
-#define gu8V_GAD_Cnt	  	10	//ADæ¡æ¨£æ¬¡æ•¸
-#define gu8V_GAD_channel 	ADC_CHANNEL_AN2 //ADé€šé“
+#define GLMaxDefault		1000//°µ—l¼şµÄ×î´óÖµ£¬Ğ¡ì¶×î´óÖµ¶¼é°µ;default:1000
+#define GHMinDefault		3000//ÁÁ—l¼şµÄ×îĞ¡Öµ£¬´óì¶×îĞ¡Öµ¶¼éÁÁ;default:3000
+#define GL1Default			1500//°µ—l¼şµÄ×î´óÖµ£¬Ğ¡ì¶×î´óÖµ¶¼é°µ;default:1500
+#define GL1L2Default		2500//ÁÁ—l¼şµÄ×îĞ¡Öµ£¬´óì¶×îĞ¡Öµ¶¼éÁÁ;default:2500
+#define gu8V_GAD_Cnt	  	10	//AD’ñ˜Ó´Î”µ
+#define gu8V_GAD_channel 	ADC_CHANNEL_AN2 //ADÍ¨µÀ
 
 
 #define SET_ADC_DATA_0_11() { _adrfs = 1;}
 #define SET_ADC_POWER_ON()	{ _adcen = 1;}
 #define SET_ADC_POWER_OFF()	{ _adcen = 0;}
-#define SET_ADC_STARTCONVERT()		{ _start = 0; _start = 1; _start = 0;}   //!< é–‹å§‹ADCè½‰æ›
+#define SET_ADC_STARTCONVERT()		{ _start = 0; _start = 1; _start = 0;}   //!< é_Ê¼ADCŞD“Q
 
 #define ADC_CHANNEL_AN0	0
 #define ADC_CHANNEL_AN1	1

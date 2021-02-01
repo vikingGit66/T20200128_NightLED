@@ -14,6 +14,7 @@ void Delay_ms(u16 time)
 	for(i = time; i > 0; i--)	
 	{
 		GCC_DELAY(2000);	
+		GCC_CLRWDT();
 	}
 }
 /*
