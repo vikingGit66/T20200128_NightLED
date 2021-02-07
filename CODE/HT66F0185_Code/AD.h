@@ -22,6 +22,7 @@ extern volatile unsigned int gu8v_LEDTime;
 extern volatile bit gbv_LEDTime_Is_On;
 //LED-Light
 extern volatile unsigned char gu8v_LEDLight;
+extern volatile unsigned char gu8v_LEDLight_Temp;
 //LED-TimeOutSet
 extern volatile unsigned int gu8v_LEDTimeOutSet;
 //TipsLED-Time
@@ -54,6 +55,8 @@ extern volatile unsigned int GL1_Data;
 extern volatile unsigned int GL2_Data;
 //GL1L2_Data,V3.0 unused
 extern volatile unsigned int GL1L2_Data;
+//LEDLight_Is_AutoChange
+extern volatile bit gbv_LEDLight_Is_AutoChange;
 
 
 //自動校準的時間變量
@@ -89,6 +92,8 @@ extern volatile unsigned char gu8v_AutoCalState;
 #define WorkMode_Auto            1  //自動小夜燈
 #define WorkMode_KeyControl1_2   2  //亮度1 && 亮度2
 #define WorkMode_NightLEDAutoCal 3  //自動校準模式
+#define NightLEDAutoCal_KeyLongTime 8000    //按鍵長按進入校準模式的時間：default：8000 s
+#define LEDAutoTime_OffSet          4       //自動倒計時的補償，每分鐘計數減4秒：default：8000 s
 
 //光強狀態枚舉
 #define G_State_None 0
@@ -152,7 +157,7 @@ extern volatile unsigned char gu8v_AutoCalState;
 
 #define gu8V_GAD_GHIncData 	200 //default:800
 #define gu8V_GAD_GLDecData 	200	//default:800
-#define GLMaxDefault		1000//暗條件的最大值，小於最大值都為暗;default:1000
+#define GLMaxDefault		2500//暗條件的最大值，小於最大值都為暗;default:1000
 #define GHMinDefault		3000//亮條件的最小值，大於最小值都為亮;default:3000
 #define GL1Default			1500//暗條件的最大值，小於最大值都為暗;default:1500
 #define GL1L2Default		2500//亮條件的最小值，大於最小值都為亮;default:2500

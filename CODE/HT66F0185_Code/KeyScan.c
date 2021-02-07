@@ -66,7 +66,8 @@ void fun_KeyScan()
 	{
 		gbv_KeyIs1 = 0;
 		volatile unsigned char time = 0;
-		while(time <= 200)//2s
+		gbv_KeyIs0 = 0;
+		while(time <= 300)//3s
 		{
 			GCC_DELAY(20000);//8MHz:10ms
 			time ++;
@@ -78,26 +79,64 @@ void fun_KeyScan()
 		if(time > 100)
 		{
 			volatile unsigned char time1 = 0;
-			Tips_NightFindLED_State = ~Tips_NightFindLED_State;
-			if(Tips_NightFindLED_State == Tips_NightFindLED_On)
+			if(gbv_KeyIs0)
 			{
-				LED_NightFind_IO = On;
-				while(time1 <= 240)//2.4s
+				gbv_KeyIs0 = 0;
+				gbv_LEDLight_Is_AutoChange = ~gbv_LEDLight_Is_AutoChange;
+				V_EEPRAM_Write_Byte(EEPRAM_Addr_NightFindLEDFlag, EEPRAM_NightFindLEDFlag);
+				V_EEPRAM_Write_Byte(EEPRAM_Addr_NightFindLED, Tips_NightFindLED_State);
+				if(gbv_LEDLight_Is_AutoChange)
 				{
-					time1++;
-					GCC_DELAY(20000);//8MHz:10ms
-				}
-				LED_NightFind_IO = Off;
-			}
-			else 
-			{
-				while(time1 <= 80)//2.4s
-				{
-					time1 ++;
-					GCC_DELAY(60000);//8MHz:30ms
-					if(time1 % 10 == 0)
+					LEDPower1 = Off; LEDPower2 = On;
+					LED_NightFind_IO = On;
+					while(time1 <= 240)//2.4s
 					{
-						LED_NightFind_IO = ~ LED_NightFind_IO;
+						time1++;
+						GCC_DELAY(20000);//8MHz:10ms
+						GCC_CLRWDT();
+					}
+					LED_NightFind_IO = Off;
+					LEDPower1 = Off; LEDPower2 = Off;
+				}
+				else 
+				{
+					while(time1 <= 80)//2.4s
+					{
+						time1 ++;
+						GCC_DELAY(60000);//8MHz:30ms
+						if(time1 % 10 == 0)
+						{
+							LED_NightFind_IO = ~ LED_NightFind_IO;
+						}
+					}
+				}
+			}
+			else
+			{
+				Tips_NightFindLED_State = ~Tips_NightFindLED_State;
+				V_EEPRAM_Write_Byte(EEPRAM_Addr_LEDAutoChangeFlag, EEPRAM_LEDAutoChangeFlag);
+				V_EEPRAM_Write_Byte(EEPRAM_Addr_LEDAutoChange, gbv_LEDLight_Is_AutoChange);
+				if(Tips_NightFindLED_State == Tips_NightFindLED_On)
+				{
+					LED_NightFind_IO = On;
+					while(time1 <= 240)//2.4s
+					{
+						time1++;
+						GCC_DELAY(20000);//8MHz:10ms
+						GCC_CLRWDT();
+					}
+					LED_NightFind_IO = Off;
+				}
+				else 
+				{
+					while(time1 <= 80)//2.4s
+					{
+						time1 ++;
+						GCC_DELAY(60000);//8MHz:30ms
+						if(time1 % 10 == 0)
+						{
+							LED_NightFind_IO = ~ LED_NightFind_IO;
+						}
 					}
 				}
 			}

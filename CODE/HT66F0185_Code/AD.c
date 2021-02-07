@@ -34,6 +34,7 @@ volatile unsigned int gu8v_LEDTime;
 volatile bit gbv_LEDTime_Is_On;
 //LED-Light
 volatile unsigned char gu8v_LEDLight;
+volatile unsigned char gu8v_LEDLight_Temp;
 //LED-TimeOutSet
 volatile unsigned int gu8v_LEDTimeOutSet;
 //TipsLED-Time
@@ -66,6 +67,8 @@ volatile unsigned int GL1_Data;
 volatile unsigned int GL2_Data;
 //GL1L2_Data,V3.0 unused
 volatile unsigned int GL1L2_Data;
+//LEDLight_Is_AutoChange
+volatile bit gbv_LEDLight_Is_AutoChange;
 
 //自動校準的時間變量
 volatile unsigned char gu8v_LEDAutoCalTime;
@@ -84,7 +87,7 @@ void fun_AD_GL_OR_GH()
 	{
 		gbv_GAD_Time_1s = 0;
 		G_ADCData = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//1s採集10筆數據
-		if(G_ADCData > GHMin)//由an切換到切換liang，為GH_State
+		if(G_ADCData > GHMin)//由L1L2暗切換到切換亮，為GH_State
 		{
 			gbv_G_Is_H = 1;
 			if(G_ADCDataLast <= GL1L2_Data)

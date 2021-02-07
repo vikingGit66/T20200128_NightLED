@@ -6,11 +6,16 @@
 
 void V_EEPRAM_Start()
 {
-	volatile unsigned char data_temp[4];
+	volatile unsigned char data_temp[8];
 	data_temp[0] = V_EEPRAM_Read_Byte(EEPRAM_Addr_TipsLEDFlag);
 	data_temp[1] = V_EEPRAM_Read_Byte(EEPRAM_Addr_TipsLED);
 	data_temp[2] = V_EEPRAM_Read_Byte(EEPRAM_Addr_LEDPowerFlag);
 	data_temp[3] = V_EEPRAM_Read_Byte(EEPRAM_Addr_LEDPower);
+
+	data_temp[4] = V_EEPRAM_Read_Byte(EEPRAM_Addr_NightFindLEDFlag);
+	data_temp[5] = V_EEPRAM_Read_Byte(EEPRAM_Addr_NightFindLED);
+	data_temp[6] = V_EEPRAM_Read_Byte(EEPRAM_Addr_LEDAutoChangeFlag);
+	data_temp[7] = V_EEPRAM_Read_Byte(EEPRAM_Addr_LEDAutoChange);
 	
 	if(data_temp[0] == EEPRAM_TipsLEDFlag)
 	{
@@ -25,6 +30,8 @@ void V_EEPRAM_Start()
 	{
 		//初始化
 		gu8v_TipsLEDState = TipsLED_State_L1;
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_TipsLEDFlag, EEPRAM_TipsLEDFlag);
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_TipsLED, gu8v_TipsLEDState);
 	}
 	
 	if(data_temp[2] == EEPRAM_LEDPowerFlag)
@@ -40,6 +47,41 @@ void V_EEPRAM_Start()
 	{
 		//初始化
 		gu8v_LEDLight = LEDLight_N1;
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_LEDPowerFlag, EEPRAM_LEDPowerFlag);
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_LEDPower, gu8v_LEDLight);
+	}
+	if(data_temp[4] == EEPRAM_NightFindLEDFlag)
+	{
+		//讀取
+		if(data_temp[5] > 1)
+		{
+			data_temp[5] = 0;
+		}
+		Tips_NightFindLED_State = data_temp[5];
+	}
+	else
+	{
+		//初始化
+		Tips_NightFindLED_State = 0;
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_NightFindLEDFlag, EEPRAM_NightFindLEDFlag);
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_NightFindLED, Tips_NightFindLED_State);
+	}
+	if(data_temp[6] == EEPRAM_LEDAutoChangeFlag)
+	{
+		//讀取
+		if(data_temp[7] > 1)
+		{
+			data_temp[7] = 0;
+		}
+		gbv_LEDLight_Is_AutoChange = data_temp[7];
+		
+	}
+	else
+	{
+		//初始化
+		gbv_LEDLight_Is_AutoChange = 0;
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_LEDAutoChangeFlag, EEPRAM_LEDAutoChangeFlag);
+		V_EEPRAM_Write_Byte(EEPRAM_Addr_LEDAutoChange, gbv_LEDLight_Is_AutoChange);
 	}
 }
 unsigned char V_EEPRAM_Read_Byte(unsigned char addr)

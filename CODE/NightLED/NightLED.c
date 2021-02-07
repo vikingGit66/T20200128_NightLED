@@ -34,8 +34,8 @@ void fun_OLEDDisplayDebug();
 
 void main()
  {
-	// ÅĞ”àÊÇ·ñéÉÏëŠÍÎ»»òÕß·ÇÕı³£Çé›rÏÂµÄÍÎ»
-	// Èç¹ûÊÇÉÏëŠÍÎ»£¬ˆÌĞĞÉÏëŠÍÎ»³õÊ¼»¯£¬·´Ö®ˆÌĞĞWDTÒç³ö³õÊ¼»¯
+	// åˆ¤æ–·æ˜¯å¦ç‚ºä¸Šé›»å¾©ä½æˆ–è€…éæ­£å¸¸æƒ…æ³ä¸‹çš„å¾©ä½
+	// å¦‚æœæ˜¯ä¸Šé›»å¾©ä½ï¼ŒåŸ·è¡Œä¸Šé›»å¾©ä½åˆå§‹åŒ–ï¼Œåä¹‹åŸ·è¡ŒWDTæº¢å‡ºåˆå§‹åŒ–
 	if (_to == 0 || _pdf ==0)
 	{
 		// System
@@ -50,19 +50,22 @@ void main()
 		GHMin = GHMinDefault;
 		GLMax = GLMaxDefault;
 		gu8v_LEDState = LED_State_Off;
-		
+		gu8v_LEDLight = LEDLight_N1;
+		gu8v_LEDLight_Temp = gu8v_LEDLight;
+		gbv_LEDLight_Is_AutoChange = 0;
+
 		//LED_Tips1_7_INIT
 		LED_IOC = Out;//OUT
 		LED_IO  = 0x00;//Off
 		//LED_StateTips
-		LED_StateTips_IOC = Out;//ÊÖ„ÓÄ£Ê½Ö¸Ê¾Ÿô
+		LED_StateTips_IOC = Out;//æ‰‹å‹•æ¨¡å¼æŒ‡ç¤ºç‡ˆ
 		LED_StateTips_IO  = Off;
 		//LEDPower
 		LEDPower1_IOC = Out;
 		LEDPower1  	  = Off;
 		LEDPower2_IOC = Out;
 		LEDPower2     = Off;
-		//°µ•rÕÒŸôÖ¸Ê¾Ÿô
+		//æš—æ™‚æ‰¾ç‡ˆæŒ‡ç¤ºç‡ˆ
 		LED_NightFind_IOC = Out;
 		LED_NightFind_IO  = Off;
 		Tips_NightFindLED_State = Tips_NightFindLED_On;
@@ -95,12 +98,12 @@ void main()
 	}
 	else
 	{
-		// WDTÒç³öÍÎ»³õÊ¼»¯
+		// WDTæº¢å‡ºå¾©ä½åˆå§‹åŒ–
 		GCC_CLRWDT();
 		
 	}
 		
-	//Ö÷Ñ­­h
+	//ä¸»å¾ªç’°
 	while(1)
 	{
 		GCC_CLRWDT();
@@ -120,7 +123,7 @@ void main()
 				GCC_DELAY(2000);//8MHz:1ms	
 				if (_lvdo)//gbv_Islvd = 1;
 				{
-					//Beepí‘º¯”µ£º_pa5
+					//BeepéŸ¿å‡½æ•¸ï¼š_pa5
 					//Beep_On();
 				}
 				else//gbv_Islvd = 0;
@@ -132,22 +135,22 @@ void main()
 		}*/
 		
 
-		//ĞİÃß¿ØÖÆ
-		//®”ĞİÃß•rég´óì¶defaultÖµ•r£¬ßMÈëĞİÃß£¬´Ë•rÓÉ¿´éT¹·1s†¾ĞÑ£¬ºóßMÈëADÅĞ”à¹âÁÁ¶È£¬ĞİÃß•rég±£³ÖédefaultÖµ
-		//Èô´ËÓĞ°´æI°´ÏÂ„t£¬ĞİÃß•régÖÃÎ»é0£¬ÔÚdefault•régƒÈ£¬´òé_TimeBase0£¬¿ÉŒ¬F°´æIµÄ’ßÃè
-		if(gu8v_HaltTime >= gu8v_HaltTimeSet30s)//ĞİÃß•régµ½default:30s
+		//ä¼‘çœ æ§åˆ¶
+		//ç•¶ä¼‘çœ æ™‚é–“å¤§æ–¼defaultå€¼æ™‚ï¼Œé€²å…¥ä¼‘çœ ï¼Œæ­¤æ™‚ç”±çœ‹é–€ç‹—1så–šé†’ï¼Œåé€²å…¥ADåˆ¤æ–·å…‰äº®åº¦ï¼Œä¼‘çœ æ™‚é–“ä¿æŒç‚ºdefaultå€¼
+		//è‹¥æ­¤æœ‰æŒ‰éµæŒ‰ä¸‹å‰‡ï¼Œä¼‘çœ æ™‚é–“ç½®ä½ç‚º0ï¼Œåœ¨defaultæ™‚é–“å…§ï¼Œæ‰“é–‹TimeBase0ï¼Œå¯å¯¦ç¾æŒ‰éµçš„æƒæ
+		if(gu8v_HaltTime >= gu8v_HaltTimeSet30s)//ä¼‘çœ æ™‚é–“åˆ°default:30s
 		{
 			//Power Down
-			TimeBase0_INT_Off();//êPé]°´æI’ßÃè¶¨•rÆ÷ÖĞ”à
+			TimeBase0_INT_Off();//é—œé–‰æŒ‰éµæƒæå®šæ™‚å™¨ä¸­æ–·
 			GCC_CLRWDT();
-			GCC_HALT();//ßMÈëĞİÃß
-			TimeBase0_INT_On();//´òé_°´æI’ßÃè¶¨•rÆ÷
-			if(gbv_KeyIs0)//Èç¹ûé°´æI†¾ĞÑ£¬„tĞİÃß•rég³õÊ¼»¯é0
+			GCC_HALT();//é€²å…¥ä¼‘çœ 
+			TimeBase0_INT_On();//æ‰“é–‹æŒ‰éµæƒæå®šæ™‚å™¨
+			if(gbv_KeyIs0)//å¦‚æœç‚ºæŒ‰éµå–šé†’ï¼Œå‰‡ä¼‘çœ æ™‚é–“åˆå§‹åŒ–ç‚º0
 			{
 				gbv_KeyIs0 = 0;
 				gu8v_HaltTime = 0;
 			}
-			else//Èç¹ûé¿´éT¹·†¾ĞÑ£¬„tĞİÃß•rég±£³ÖédefaultÖµ
+			else//å¦‚æœç‚ºçœ‹é–€ç‹—å–šé†’ï¼Œå‰‡ä¼‘çœ æ™‚é–“ä¿æŒç‚ºdefaultå€¼
 			{
 				gu8v_HaltTime = gu8v_HaltTimeSet30s;//default:30s
 			}
@@ -157,18 +160,17 @@ void main()
 			//NC
 		}
 		
-		
-		//LEDï@Ê¾½çÃæUIÔOÓ‹
-		//LEDï@Ê¾ÙYÔ´£º8+1 LED 
-		//•régµÈ¼‰£º1-7£ºŸôÁÁµÄ‚€”µ´ú±í•régµÄµÈ¼‰£»¼t¡¢¾G¡¢üS¡¢Ë{¡¢¼t¡¢¾G¡¢üS
-		//Ò¹égŒ¤ÕÒŸô 8 £ºÍ¨ß^ë[²Ø°´æIé_†¢ºÍêPé]£¨¹Ê¡¹¦ºÄ):2sƒÈßBÀm°´ÏÂ3´ÎKEY2£¬„tÇĞ“Q î‘B£¬ÔÚºÚµÄÇé›rÏÂˆÌĞĞ
-		//ÊÖ„Ó×Ô„ÓÄ£ 9 £ºÊ½ÌáÊ¾Ÿô£º®”°´ÏÂŸôºó£¬ÈôéÊÖ„ÓÄ£Ê½´òé_µÄŸô£¬„tÌáÊ¾éÊÖ„ÓÄ£Ê½£¬ĞèÒªÊÖ„ÓêPé]
+		//LEDé¡¯ç¤ºç•Œé¢UIè¨­è¨ˆ
+		//LEDé¡¯ç¤ºè³‡æºï¼š8+1 LED 
+		//æ™‚é–“ç­‰ç´šï¼š1-7ï¼šç‡ˆäº®çš„å€‹æ•¸ä»£è¡¨æ™‚é–“çš„ç­‰ç´šï¼›ç´…ã€ç¶ ã€é»ƒã€è—ã€ç´…ã€ç¶ ã€é»ƒ
+		//å¤œé–“å°‹æ‰¾ç‡ˆ 8 ï¼šé€šééš±è—æŒ‰éµé–‹å•Ÿå’Œé—œé–‰ï¼ˆç¯€çœåŠŸè€—):2så…§é€£çºŒæŒ‰ä¸‹3æ¬¡KEY2ï¼Œå‰‡åˆ‡æ›ç‹€æ…‹ï¼Œåœ¨é»‘çš„æƒ…æ³ä¸‹åŸ·è¡Œ
+		//æ‰‹å‹•è‡ªå‹•æ¨¡ 9 ï¼šå¼æç¤ºç‡ˆï¼šç•¶æŒ‰ä¸‹ç‡ˆåï¼Œè‹¥ç‚ºæ‰‹å‹•æ¨¡å¼æ‰“é–‹çš„ç‡ˆï¼Œå‰‡æç¤ºç‚ºæ‰‹å‹•æ¨¡å¼ï¼Œéœ€è¦æ‰‹å‹•é—œé–‰
 		switch (gu8v_WorkMode)
 		{
-			//×Ô„ÓÄ£Ê½Ğ£œÊ£ºÔÚ×Ô„ÓÄ£Ê½ÏÂ£¬éL°´8ÃëßMÈëĞ£œÊÄ£Ê½£¬Á÷Ë®ŸôÑ­­h2s
-			//ÒÀ´ÎÅĞ”àGH¡¢GL¡¢GL1-L2(V3.0°æ±¾²»Ê¹ÓÃ)£¬³É¹¦»ò30s•régµ½ºó£¨È«ÁÁ2s£©ÍË³ö·µ»Ø×Ô„ÓÄ£Ê½
-			//×Ô„ÓĞ£œÊºó£¬Ğè±£ÁôGL1¡¢GL2¡¢GL1L2¡¢GLMax£ºßx³ö×îĞ¡Öµ×÷éGLMax
-			case WorkMode_NightLEDAutoCal://×Ô„ÓĞ£œÊÄ£Ê½
+			//è‡ªå‹•æ¨¡å¼æ ¡æº–ï¼šåœ¨è‡ªå‹•æ¨¡å¼ä¸‹ï¼Œé•·æŒ‰8ç§’é€²å…¥æ ¡æº–æ¨¡å¼ï¼Œæµæ°´ç‡ˆå¾ªç’°2s
+			//ä¾æ¬¡åˆ¤æ–·GHã€GLã€GL1-L2(V3.0ç‰ˆæœ¬ä¸ä½¿ç”¨)ï¼ŒæˆåŠŸæˆ–30sæ™‚é–“åˆ°åï¼ˆå…¨äº®2sï¼‰é€€å‡ºè¿”å›è‡ªå‹•æ¨¡å¼
+			//è‡ªå‹•æ ¡æº–åï¼Œéœ€ä¿ç•™GL1ã€GL2ã€GL1L2ã€GLMaxï¼šé¸å‡ºæœ€å°å€¼ä½œç‚ºGLMax
+			case WorkMode_NightLEDAutoCal://è‡ªå‹•æ ¡æº–æ¨¡å¼
 				//ROM:2% , RAM:2%
 				
 				gu8v_HaltTime = 0;
@@ -177,34 +179,39 @@ void main()
 				for(i = 0; i < 20; i++)//2s
 				{
 					GCC_CLRWDT();
-					Delay_ms(100);//ÑÓ•r100ms
+					Delay_ms(100);//å»¶æ™‚100ms
 					LED_IO <<= 1;
 					if(LED_IO == 0x00)
 						LED_IO = 0x01;
 				}
 				LED_IO = 0x00;
 				volatile unsigned char LEDIO_Temp = 0;
+				GHMin = GHMinDefault;
+				GLMax = GLMaxDefault;
+				GL1_Data = GL1Default;
+				GL2_Data = GL1L2Default;
+				GL1L2_Data = GL1L2Default;
 				while(gu8v_LEDAutoCalTime < 30)//30s
 				{
 					GCC_CLRWDT();
-					Delay_ms(100);//ÑÓ•r100ms
+					Delay_ms(100);//å»¶æ™‚100ms
 					LEDIO_Temp = LED_IO;
 					LED_IO = 0x00;
-					G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//’ñ¼¯10¹P”µ“ş£¬ÇóÆ½¾ùÖµ
-					if(G_AutoCalADCDataTemp >= GHMin)//ÁÁ
+					G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//æ¡é›†10ç­†æ•¸æ“šï¼Œæ±‚å¹³å‡å€¼
+					if(G_AutoCalADCDataTemp >= GHMin)//äº®
 					{
 						GCC_CLRWDT();
-						Delay_ms(200);//ÑÓ•r100ms
-						G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//’ñ¼¯10¹P”µ“ş£¬ÇóÆ½¾ùÖµ
+						Delay_ms(100);//å»¶æ™‚100ms
+						G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//æ¡é›†10ç­†æ•¸æ“šï¼Œæ±‚å¹³å‡å€¼
 						if(G_AutoCalADCDataTemp >= GHMin)
 							gbv_AutoCal_GState = NightAutoCal_GState_Is_H;
 					}
-					else if(G_AutoCalADCDataTemp <= GLMax)//°µ
+					else if(G_AutoCalADCDataTemp <= GLMax)//æš—
 					{
 						GCC_CLRWDT();
-						Delay_ms(200);//ÑÓ•r100ms
-						G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//’ñ¼¯10¹P”µ“ş£¬ÇóÆ½¾ùÖµ
-						if(G_AutoCalADCDataTemp <= GLMax)//°µ
+						Delay_ms(100);//å»¶æ™‚100ms
+						G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//æ¡é›†10ç­†æ•¸æ“šï¼Œæ±‚å¹³å‡å€¼
+						if(G_AutoCalADCDataTemp <= GLMax)//æš—
 							gbv_AutoCal_GState = NightAutoCal_GState_Is_L;
 					}
 					LED_IO = LEDIO_Temp;
@@ -217,7 +224,7 @@ void main()
 								GHMin = G_AutoCalADCDataTemp - 300;
 								LED_IO = 0x00;
 							}
-							else //ÌáÊ¾é_Ÿô£¬ŸôÒÆ„Ó
+							else //æç¤ºé–‹ç‡ˆï¼Œç‡ˆç§»å‹•
 							{
 								LED_IO <<= 1;
 								if(LED_IO == 0x00)
@@ -235,7 +242,7 @@ void main()
 								GLMax = G_AutoCalADCDataTemp + 500;
 								LED_IO = 0x00;
 							}
-							else//ÌáÊ¾êPŸô£¬ŸôéW q
+							else//æç¤ºé—œç‡ˆï¼Œç‡ˆé–ƒçˆ
 							{
 								LED_IO = ~LED_IO;
 							}
@@ -248,9 +255,9 @@ void main()
 							LEDPower1 = On;
 							LEDPower2 = Off;
 							GCC_CLRWDT();
-							Delay_ms(1000);//ÑÓ•r1000ms
-							G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//’ñ¼¯10¹P”µ“ş£¬ÇóÆ½¾ùÖµ
-							GL1_Data = G_AutoCalADCDataTemp + 500;
+							Delay_ms(1000);//å»¶æ™‚1000ms
+							G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//æ¡é›†10ç­†æ•¸æ“šï¼Œæ±‚å¹³å‡å€¼
+							GL1_Data = G_AutoCalADCDataTemp + 400;
 							break;
 
 						case AutoCalState_Is_Setting_L2 :
@@ -258,8 +265,8 @@ void main()
 							LEDPower1 = Off;
 							LEDPower2 = On;
 							GCC_CLRWDT();
-							Delay_ms(1000);//ÑÓ•r1000ms£¬ŒëHÊ¹ÓÃĞèÑÓ•r¸üéL1s
-							G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//’ñ¼¯10¹P”µ“ş£¬ÇóÆ½¾ùÖµ
+							Delay_ms(1000);//å»¶æ™‚1000msï¼Œå¯¦éš›ä½¿ç”¨éœ€å»¶æ™‚æ›´é•·1s
+							G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//æ¡é›†10ç­†æ•¸æ“šï¼Œæ±‚å¹³å‡å€¼
 							GL2_Data = G_AutoCalADCDataTemp + 500;
 							break;
 
@@ -268,9 +275,9 @@ void main()
 							LEDPower1 = On;
 							LEDPower2 = On;
 							GCC_CLRWDT();
-							Delay_ms(1000);//ÑÓ•r1000ms£¬ŒëHÊ¹ÓÃĞèÑÓ•r¸üéL1s
-							G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//’ñ¼¯10¹P”µ“ş£¬ÇóÆ½¾ùÖµ
-							GL1L2_Data = G_AutoCalADCDataTemp + 500;
+							Delay_ms(1000);//å»¶æ™‚1000msï¼Œå¯¦éš›ä½¿ç”¨éœ€å»¶æ™‚æ›´é•·1s
+							G_AutoCalADCDataTemp = Drv_GetADC_AVGn(gu8V_GAD_channel,gu8V_GAD_Cnt);//æ¡é›†10ç­†æ•¸æ“šï¼Œæ±‚å¹³å‡å€¼
+							GL1L2_Data = G_AutoCalADCDataTemp + 400;
 							break;
 						case AutoCalState_Is_LOK :
 							if(GHMin > GLMax)
@@ -281,7 +288,7 @@ void main()
 							{
 								gu8v_AutoCalState = AutoCalState_Is_Failed;
 							}
-							if((GL1_Data < GL2_Data) && (GL2_Data < GL1L2_Data))//·ûºÏÕı³£¬FÏó
+							if((GL1_Data < GL2_Data) && (GL2_Data < GL1L2_Data))//ç¬¦åˆæ­£å¸¸ç¾è±¡
 							{
 								
 							}
@@ -326,7 +333,7 @@ void main()
 						}
 					}
 				}
-				if(gu8v_LEDAutoCalTime == 31)
+				if(gu8v_LEDAutoCalTime == 30)
 				{
 					LED_IO  = 0x00;//Off
 					LED_StateTips_IO  = Off;
@@ -346,43 +353,43 @@ void main()
 				break;
 
 			case WorkMode_Auto:
-				gbv_GADC_Is_On = 1;//´òé_ADC
+				gbv_GADC_Is_On = 1;//æ‰“é–‹ADC
 				LED_StateTips_IO = Off;
 				if(gu8v_KeyState == Key_State_LongPress)
 				{
 					gu8v_KeyState = Key_State_None;
 
-					gu8v_LEDState = LED_State_Off;					// î‘BÇĞ“Q£¬êPŸô
-					gu8v_LEDTime  = 0;								//LEDµ¹Ó‹•r³õÊ¼»¯é0
-					gu8v_TipsLED_Time = gu8v_TipsLEDTimeOutSet + 1;	//êPé]Ö¸Ê¾Ÿô
-					gu8v_LEDLight = LEDLight_N1;					//Ê×´ÎßMÈëÊÖ„ÓÄ£Ê½ÁÁ¶È³õÊ¼»¯é1
+					gu8v_LEDState = LED_State_Off;					//ç‹€æ…‹åˆ‡æ›ï¼Œé—œç‡ˆ
+					gu8v_LEDTime  = 0;								//LEDå€’è¨ˆæ™‚åˆå§‹åŒ–ç‚º0
+					gu8v_TipsLED_Time = gu8v_TipsLEDTimeOutSet + 1;	//é—œé–‰æŒ‡ç¤ºç‡ˆ
+					gu8v_LEDLight = LEDLight_N1;					//é¦–æ¬¡é€²å…¥æ‰‹å‹•æ¨¡å¼äº®åº¦åˆå§‹åŒ–ç‚º1
 					
 					volatile unsigned int gu8v_NightLEDAutoCalKeyTime = 0;
-					//ÔÚ×Ô„ÓÄ£Ê½ÏÂ£¬éL°´8s£¬ßMÈ¥Ğ£œÊÄ£Ê½
-					while( (!KEYCAL) &&  (gu8v_NightLEDAutoCalKeyTime <= 8000/10))//8000/10  8s
+					//åœ¨è‡ªå‹•æ¨¡å¼ä¸‹ï¼Œé•·æŒ‰8sï¼Œé€²å…¥æ ¡æº–æ¨¡å¼
+					while( (!KEYCAL) &&  (gu8v_NightLEDAutoCalKeyTime <= NightLEDAutoCal_KeyLongTime / 10))//8000/10  8s
 					{
 						gu8v_NightLEDAutoCalKeyTime++;
 						GCC_DELAY(20000);//10ms
 						GCC_CLRWDT();
 					}
-					if( gu8v_NightLEDAutoCalKeyTime <= 8000/10)//Ğ¡ì¶8sÇĞ“QéÊÖ„ÓÄ£Ê½
+					if( gu8v_NightLEDAutoCalKeyTime <= NightLEDAutoCal_KeyLongTime / 10)//å°æ–¼8såˆ‡æ›ç‚ºæ‰‹å‹•æ¨¡å¼
 					{
 						gu8v_WorkMode = WorkMode_KeyControl1_2;
 					}
-					else//´óì¶8sÇĞ“QéĞ£œÊÄ£Ê½
+					else//å¤§æ–¼8såˆ‡æ›ç‚ºæ ¡æº–æ¨¡å¼
 					{
 						gu8v_WorkMode = WorkMode_NightLEDAutoCal;
-						gu8v_LEDAutoCalTime = 0;//Ğ£œÊÄ£Ê½•rég×ƒÁ¿³õÊ¼»¯é0
+						gu8v_LEDAutoCalTime = 0;//æ ¡æº–æ¨¡å¼æ™‚é–“è®Šé‡åˆå§‹åŒ–ç‚º0
 					}
 
 				}
-				if(gu8v_KeyState == Key_State_ShortPress)			// î‘B¶Ì°´£¬ÔOÖÃ×Ô„Ó•rég
+				if(gu8v_KeyState == Key_State_ShortPress)			//ç‹€æ…‹çŸ­æŒ‰ï¼Œè¨­ç½®è‡ªå‹•æ™‚é–“
 				{
 					gu8v_KeyState = Key_State_None;
-					gu8v_TipsLED_Time = 0;							//LEDÌáÊ¾ŸôÍÎ»0
+					gu8v_TipsLED_Time = 0;							//LEDæç¤ºç‡ˆå¾©ä½0
 					
-					//Èç¹û²»ÊÇÊ×´Î°´ÏÂ£¬„t×Ô„Ó•rég++£¬Œ‘ÈëEEPRAM
-					if(gbv_Key_Is_NoFirst)//5sºó¸üĞÂéÊ×´Î°´ÏÂ
+					//å¦‚æœä¸æ˜¯é¦–æ¬¡æŒ‰ä¸‹ï¼Œå‰‡è‡ªå‹•æ™‚é–“++ï¼Œå¯«å…¥EEPRAM
+					if(gbv_Key_Is_NoFirst)//5såæ›´æ–°ç‚ºé¦–æ¬¡æŒ‰ä¸‹
 					{
 						gu8v_TipsLEDState ++;
 						V_EEPRAM_Write_Byte(EEPRAM_Addr_TipsLEDFlag, EEPRAM_TipsLEDFlag);
@@ -394,54 +401,73 @@ void main()
 						}
 						gu8v_LEDState = LED_State_Off;
 					}
-					else//Ê×´Î°´ÏÂÈôŸôêP„té_
+					else//é¦–æ¬¡æŒ‰ä¸‹è‹¥ç‡ˆé—œå‰‡é–‹
 					{
-						gu8v_TipsLEDStateLast = 0x55;//ŠÖÆ¸ü¸Ä£¬Ö¸Ê¾Ÿôï@Ê¾®”Ç°•rég î‘B
+						gu8v_TipsLEDStateLast = 0x55;//å¼·åˆ¶æ›´æ”¹ï¼ŒæŒ‡ç¤ºç‡ˆé¡¯ç¤ºç•¶å‰æ™‚é–“ç‹€æ…‹
 						gbv_Key_Is_NoFirst = 1;
 
 						gbv_NightLED_Is_HandTurnOut = 1;
-						//µÚÒ»´Î°´ÏÂ„tŸôÈ¡·´£¬Èôéé_£¬„tµ¹Ó‹•rêPé]
+						//ç¬¬ä¸€æ¬¡æŒ‰ä¸‹å‰‡ç‡ˆå–åï¼Œè‹¥ç‚ºé–‹ï¼Œå‰‡å€’è¨ˆæ™‚é—œé–‰
 						if(gu8v_LEDState == LED_State_Off)
 						{
-							gu8v_LEDState = LED_State_On;//é_Ÿô
-							gu8v_LEDTime = 0;//LEDµ¹Ó‹•rµÄ•rég
-							gbv_LEDTime_Is_On = 1;//´òé_µ¹Ó‹•r
+							gu8v_LEDState = LED_State_On;//é–‹ç‡ˆ
+							gu8v_LEDTime = 0;//LEDå€’è¨ˆæ™‚çš„æ™‚é–“
+							gbv_LEDTime_Is_On = 1;//æ‰“é–‹å€’è¨ˆæ™‚
 						}
 						else if(gu8v_LEDState == LED_State_On)
 						{
 							gu8v_LEDState = LED_State_Off;
+
+							gu8v_LEDLight = gu8v_LEDLight_Temp;//åœ¨è‡ªå‹•åˆ‡æ›äº®åº¦æ™‚ï¼Œè‹¥æŒ‰ä¸‹æŒ‰éµå‰‡å°‡äº®åº¦å¾©ä½
+							
 						}
 					}			
 				}
-				//¹âŠ×ƒ»¯ßMÈëÏàŒ¦‘ªµÄµ¹Ó‹•r£¬Ö÷ÒªÊÇ¿ØÖÆLED
-				switch(gu8v_GState)//¹âŠ î‘B×ƒÁ¿
+				//å…‰å¼·è®ŠåŒ–é€²å…¥ç›¸å°æ‡‰çš„å€’è¨ˆæ™‚ï¼Œä¸»è¦æ˜¯æ§åˆ¶LED
+				switch(gu8v_GState)//å…‰å¼·ç‹€æ…‹è®Šé‡
 				{
-					case G_State_H://ÓÉ°µ×ƒÁÁ£ºêPŸô
+					case G_State_H://ç”±æš—è®Šäº®ï¼šé—œç‡ˆ
 						gu8v_LEDState = LED_State_Off;
-						gu8v_LEDTime = 0;//LEDµ¹Ó‹•rµÄ•rég
-						gbv_LEDTime_Is_On = 0;//êPé]µ¹Ó‹•r
+						gu8v_LEDTime = 0;//LEDå€’è¨ˆæ™‚çš„æ™‚é–“
+						gbv_LEDTime_Is_On = 0;//é—œé–‰å€’è¨ˆæ™‚
 						gbv_NightLED_Is_AutoChange = 1;
 						break;
-					case G_State_L://ÓÉÁÁ×ƒ°µ£ºé_Ÿô
-						if(gu8v_LEDTimeOutSet != 0)//·ÀÖ¹Ü›¼ş³öåe
+					case G_State_L://ç”±äº®è®Šæš—ï¼šé–‹ç‡ˆ
+						if(gu8v_LEDTimeOutSet != 0)//é˜²æ­¢è»Ÿä»¶å‡ºéŒ¯
 						{
 							gu8v_LEDState = LED_State_On;
 						}
-						gu8v_LEDTime = 0;//LEDµ¹Ó‹•rµÄ•rég
-						gbv_LEDTime_Is_On = 1;//´òé_µ¹Ó‹•r
+						gu8v_LEDTime = 0;//LEDå€’è¨ˆæ™‚çš„æ™‚é–“
+						gbv_LEDTime_Is_On = 1;//æ‰“é–‹å€’è¨ˆæ™‚
 						gbv_NightLED_Is_AutoChange = 1;
 						break;
-					case G_State_Hold://ÈôŸôéé_£¬„tµ¹Ó‹•rêPŸô
+					case G_State_Hold://è‹¥ç‡ˆç‚ºé–‹ï¼Œå‰‡å€’è¨ˆæ™‚é—œç‡ˆ
 						if(gu8v_LEDState == LED_State_On)
 						{
 							if(gbv_LEDTime_Is_On == 1)
 							{
-								if(gu8v_LEDTime > gu8v_LEDTimeOutSet)//•régµ½
+								if(gu8v_LEDTime == 1)//å€’è¨ˆæ™‚é–‹å§‹å‰ä¿å­˜äº®åº¦
+								{
+									gu8v_LEDLight_Temp = gu8v_LEDLight;
+								}
+								//N3ç‚ºæœ€äº®ï¼ŒN2ç‚ºæœ€æš—ï¼ŒN1ç‚ºä¸­é–“
+								//è™•æ–¼äº®åº¦ä¸ç‚ºæœ€å°æ™‚ï¼Œç•¶æ™‚é–“åˆ°é”ä¸‰åˆ†ä¹‹2æ™‚ï¼Œäº®åº¦ä¿å­˜ä¸”åˆ‡æ›è‡³æœ€æš—ï¼Œç•¶å€’è¨ˆæ™‚åˆ°åï¼Œæ¢å¾©åŸäº®åº¦,T20210204
+								if(gu8v_LEDTime == (gu8v_LEDTimeOutSet*2)/3)//æ™‚é–“åˆ°
+								{
+									if(gbv_LEDLight_Is_AutoChange)
+									{
+										gu8v_LEDLight = LEDLight_N2;
+									}
+								}
+								
+								if(gu8v_LEDTime > gu8v_LEDTimeOutSet)//æ™‚é–“åˆ°
 								{
 									gu8v_LEDTime = 0;				
 									gbv_LEDTime_Is_On = 0;
 									gu8v_LEDState = LED_State_Off;
-									gbv_NightLED_Is_AutoChange = 1;//Ğ¡Ò¹Ÿô•régµ½£¬×Ô„ÓêPé]£¬GL²»³ÉÁ¢£¬G î‘BéHold
+									gbv_NightLED_Is_AutoChange = 1;//å°å¤œç‡ˆæ™‚é–“åˆ°ï¼Œè‡ªå‹•é—œé–‰ï¼ŒGLä¸æˆç«‹ï¼ŒGç‹€æ…‹ç‚ºHold
+									
+									gu8v_LEDLight = gu8v_LEDLight_Temp;
 								}
 							}
 						}
@@ -450,16 +476,16 @@ void main()
 					default :
 						break;
 				}
-				switch(gu8v_LEDState)//ÅĞ”àŸôµÄ î‘B
+				switch(gu8v_LEDState)//åˆ¤æ–·ç‡ˆçš„ç‹€æ…‹
 				{
-					case LED_State_Off : //êPŸô
+					case LED_State_Off : //é—œç‡ˆ
 						LEDPower1 = Off; 
 						LEDPower2 = Off;
 					break;
-					case LED_State_On  : //é_Ÿô
-						switch(gu8v_LEDLight)//ÅĞ”àÁÁ¶È£ºN1(default)£¬N2£¬N3
+					case LED_State_On  : //é–‹ç‡ˆ
+						switch(gu8v_LEDLight)//åˆ¤æ–·äº®åº¦ï¼šN1(default)ï¼ŒN2ï¼ŒN3
 						{
-							//ÓÉƒÉ‚€IO¿Ú¿ØÖÆÈı·NÁÁ¶È£¬Í¨ß^²»Í¬µÄëŠ×èŒ¬F²»Í¬µÄÁÁ¶È
+							//ç”±å…©å€‹IOå£æ§åˆ¶ä¸‰ç¨®äº®åº¦ï¼Œé€šéä¸åŒçš„é›»é˜»å¯¦ç¾ä¸åŒçš„äº®åº¦
 							case LEDLight_Off:
 							case LEDLight_N1:  LEDPower1 = On; 	LEDPower2 = Off;	break;
 							case LEDLight_N2:  LEDPower1 = Off; LEDPower2 = On;		break;
@@ -471,27 +497,27 @@ void main()
 				
 				if(gu8v_TipsLEDStateLast != gu8v_TipsLEDState)
 				{
-					switch(gu8v_TipsLEDState)//Ö¸Ê¾Ÿô î‘B×ƒÁ¿
+					switch(gu8v_TipsLEDState)//æŒ‡ç¤ºç‡ˆç‹€æ…‹è®Šé‡
 					{
 						#ifdef TipsLED_OneLED
-						case TipsLED_State_None:LED_IO = 0x00;gu8v_LEDTimeOutSet = 00;break;//Ö¸Ê¾ŸôêPé]
-						case TipsLED_State_L1: LED_IO = 0x01; gu8v_LEDTimeOutSet = 2*60;break;//ĞèÒªêPé]ÆäËûµÄLED£¬Ö»´òé_ÏàŒ¦‘ªµÄLED
-						case TipsLED_State_L2: LED_IO = 0x02; gu8v_LEDTimeOutSet = 5*60;break; 
-						case TipsLED_State_L3: LED_IO = 0x04; gu8v_LEDTimeOutSet = 10*60;break;  
-						case TipsLED_State_L4: LED_IO = 0x08; gu8v_LEDTimeOutSet = 15*60;break; 
-						case TipsLED_State_L5: LED_IO = 0x10; gu8v_LEDTimeOutSet = 20*60;break; 
-						case TipsLED_State_L6: LED_IO = 0x20; gu8v_LEDTimeOutSet = 25*60;break; 
-						case TipsLED_State_L7: LED_IO = 0x40; gu8v_LEDTimeOutSet = 30*60;break; 
+						case TipsLED_State_None:LED_IO = 0x00;gu8v_LEDTimeOutSet = 00;break;//æŒ‡ç¤ºç‡ˆé—œé–‰
+						case TipsLED_State_L1: LED_IO = 0x01; gu8v_LEDTimeOutSet = 02*(60-LEDAutoTime_OffSet);break;//éœ€è¦é—œé–‰å…¶ä»–çš„LEDï¼Œåªæ‰“é–‹ç›¸å°æ‡‰çš„LED
+						case TipsLED_State_L2: LED_IO = 0x02; gu8v_LEDTimeOutSet = 05*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L3: LED_IO = 0x04; gu8v_LEDTimeOutSet = 10*(60-LEDAutoTime_OffSet);break;  
+						case TipsLED_State_L4: LED_IO = 0x08; gu8v_LEDTimeOutSet = 15*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L5: LED_IO = 0x10; gu8v_LEDTimeOutSet = 20*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L6: LED_IO = 0x20; gu8v_LEDTimeOutSet = 25*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L7: LED_IO = 0x40; gu8v_LEDTimeOutSet = 30*(60-LEDAutoTime_OffSet);break; 
 						#endif
-						#ifdef TipsLED_OneToTwoLED_10min//LEDÖ¸Ê¾Ÿô10·ÖçŠÒ»‚€µÈ¼‰
-						case TipsLED_State_None:LED_IO = 0x00;gu8v_LEDTimeOutSet = 00*60;break;//Ö¸Ê¾ŸôêPé]
-						case TipsLED_State_L1: LED_IO = 0x01; gu8v_LEDTimeOutSet = 03*60;break;//ĞèÒªêPé]ÆäËûµÄLED£¬Ö»´òé_ÏàŒ¦‘ªµÄLED
-						case TipsLED_State_L2: LED_IO = 0x03; gu8v_LEDTimeOutSet = 10*60;break; 
-						case TipsLED_State_L3: LED_IO = 0x07; gu8v_LEDTimeOutSet = 20*60;break;  
-						case TipsLED_State_L4: LED_IO = 0x0f; gu8v_LEDTimeOutSet = 30*60;break; 
-						case TipsLED_State_L5: LED_IO = 0x1f; gu8v_LEDTimeOutSet = 40*60;break; 
-						case TipsLED_State_L6: LED_IO = 0x3f; gu8v_LEDTimeOutSet = 50*60;break; 
-						case TipsLED_State_L7: LED_IO = 0x7f; gu8v_LEDTimeOutSet = 60*60;break; 
+						#ifdef TipsLED_OneToTwoLED_10min//LEDæŒ‡ç¤ºç‡ˆ10åˆ†é˜ä¸€å€‹ç­‰ç´š
+						case TipsLED_State_None:LED_IO = 0x00;gu8v_LEDTimeOutSet = 00*(60-LEDAutoTime_OffSet);break;//æŒ‡ç¤ºç‡ˆé—œé–‰
+						case TipsLED_State_L1: LED_IO = 0x01; gu8v_LEDTimeOutSet = 03*(60-LEDAutoTime_OffSet);break;//éœ€è¦é—œé–‰å…¶ä»–çš„LEDï¼Œåªæ‰“é–‹ç›¸å°æ‡‰çš„LED
+						case TipsLED_State_L2: LED_IO = 0x03; gu8v_LEDTimeOutSet = 10*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L3: LED_IO = 0x07; gu8v_LEDTimeOutSet = 20*(60-LEDAutoTime_OffSet);break;  
+						case TipsLED_State_L4: LED_IO = 0x0f; gu8v_LEDTimeOutSet = 30*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L5: LED_IO = 0x1f; gu8v_LEDTimeOutSet = 40*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L6: LED_IO = 0x3f; gu8v_LEDTimeOutSet = 50*(60-LEDAutoTime_OffSet);break; 
+						case TipsLED_State_L7: LED_IO = 0x7f; gu8v_LEDTimeOutSet = 60*(60-LEDAutoTime_OffSet);break; 
 						#endif
 						default :
 							break;
@@ -512,15 +538,15 @@ void main()
 				break;
 
 
-			//éÊÖ„Ó¿ØÖÆÄ£Ê½
+			//ç‚ºæ‰‹å‹•æ§åˆ¶æ¨¡å¼
 			case WorkMode_KeyControl1_2:
 				if(Tips_NightFindLED_State == Tips_NightFindLED_Off)
 				{
-					gbv_GADC_Is_On = 0;//êPé]ADC
+					gbv_GADC_Is_On = 0;//é—œé–‰ADC
 				}
 				else if(Tips_NightFindLED_State == Tips_NightFindLED_On)
 				{
-					gbv_GADC_Is_On = 1;//´òé_ADC
+					gbv_GADC_Is_On = 1;//æ‰“é–‹ADC
 				}
 				
 				if(gu8v_KeyState == Key_State_LongPress)
@@ -528,11 +554,11 @@ void main()
 					gu8v_KeyState = Key_State_None;
 					gu8v_WorkMode = WorkMode_Auto;
 					LEDPower1 = Off;
-					LEDPower2 = Off;				// î‘BÇĞ“Q£¬êPŸô£¬ÇÒ»Ø‚÷ÁÁ¶ÈÖÁ×Ô„ÓÄ£Ê½
-					gu8v_TipsLEDStateLast = 0x55;//ŠÖÆ¸ü¸Ä£¬Ö¸Ê¾Ÿôï@Ê¾®”Ç°•rég î‘B
-					gu8v_TipsLED_Time = 0;//Ö¸Ê¾Ÿô•rég³õÊ¼»¯é0
+					LEDPower2 = Off;				//ç‹€æ…‹åˆ‡æ›ï¼Œé—œç‡ˆï¼Œä¸”å›å‚³äº®åº¦è‡³è‡ªå‹•æ¨¡å¼
+					gu8v_TipsLEDStateLast = 0x55;//å¼·åˆ¶æ›´æ”¹ï¼ŒæŒ‡ç¤ºç‡ˆé¡¯ç¤ºç•¶å‰æ™‚é–“ç‹€æ…‹
+					gu8v_TipsLED_Time = 0;//æŒ‡ç¤ºç‡ˆæ™‚é–“åˆå§‹åŒ–ç‚º0
 				}
-				if(gu8v_KeyState == Key_State_ShortPress)//ÔOÖÃÁÁ¶È£¬Œ‘ÈëEEPRAM
+				if(gu8v_KeyState == Key_State_ShortPress)//è¨­ç½®äº®åº¦ï¼Œå¯«å…¥EEPRAM
 				{
 					gu8v_KeyState = Key_State_None;
 					gu8v_LEDLight ++;
@@ -565,12 +591,12 @@ void main()
 			case Tips_NightFindLED_On :
 				if(gbv_G_Is_H)
 				{
-					//Ö¸Ê¾ŸôêP
+					//æŒ‡ç¤ºç‡ˆé—œ
 					LED_NightFind_IO = Off;
 				}
 				else
 				{
-					//Ö¸Ê¾Ÿôé_
+					//æŒ‡ç¤ºç‡ˆé–‹
 					if(gu8v_WorkMode == WorkMode_Auto)
 					{
 						if(gu8v_LEDState == LED_State_Off)
@@ -597,7 +623,7 @@ void main()
 		}
 
 
-		switch(gu8v_KeyState)//°´æI î‘B×ƒÁ¿
+		switch(gu8v_KeyState)//æŒ‰éµç‹€æ…‹è®Šé‡
 		{
 			case Key_State_None:
 				break;
@@ -634,7 +660,7 @@ void fun_OLEDDisplayDebug()
 		if(gbv_GADC_Is_On == 1)
 		{
 			gbv_GAD_OLEDDispayDebug_Time_1s = 0;
-			//Display¹âADData
+			//Displayå…‰ADData
 			oled_shownum(0,i,Drv_GetADC_AVGn(ADC_CHANNEL_AN2,10),5,12);
 			oled_shownum(100,0,i,1,12);
 			i++;	
